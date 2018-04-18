@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wxs.demo.dao.AreaDao">
+    <select id="queryArea" resultType="com.wxs.demo.entity.Area">
+        SELECT
+            a.area_id,
+            a.area_name,
+            a.priority,
+            a.create_time,
+            a.last_edit_time
+        FROM
+            tb_area a
+        ORDER BY priority DESC
+
+    </select>
+
+    <select id="queryAreaById" resultType="com.wxs.demo.entity.Area">
+        SELECT
+            a.area_id,
+            a.area_name,
+            a.priority,
+            a.create_time,
+            a.last_edit_time
+        FROM
+            tb_area a
+        where a.area_id = #{areaId}
+    </select>
+    <insert id="insertArea" parameterType="com.wxs.demo.entity.Area" useGeneratedKeys="true"
+            keyColumn="area_id" keyProperty="areaId">
+        INSERT INTO tb_area(area_name,priority,create_time,last_edit_time)
+        VALUES
+        (#{areaName},#{priority},#{createTime},#{lastEditTime})
+    </insert>
+    <update id="updateArea" parameterType="com.wxs.demo.entity.Area">
+        UPDATE tb_area
+        <set>
+            <if test="areaName!=null and areaName!=''">
+                area_name=#{areaName}
+            </if>
+            <if test="priority!=null and priority!=''">
+                ,priority=#{priority}
+            </if>
+            <if test="lastEditTime!=null and lastEditTime!=''">
+                ,last_edit_time=#{lastEditTime}
+            </if>
+        </set>
+        where area_id=#{areaId}
+    </update>
+    <delete id="deleteArea">
+        delete from tb_area where area_id = #{areaId}
+    </delete>
+</mapper>
